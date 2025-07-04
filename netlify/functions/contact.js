@@ -29,6 +29,15 @@ exports.handler = async (event, context) => {
   }
 
   try {
+    // Validate environment variables first
+    const requiredEnvVars = ['SMTP_HOST', 'SMTP_USER', 'SMTP_PASS', 'MAIL_TO'];
+    const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+    
+    if (missingVars.length > 0) {
+      console.error('Missing environment variables:', missingVars);
+      throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+    }
+
     // Parse the incoming request body
     const body = JSON.parse(event.body);
     
@@ -60,19 +69,23 @@ exports.handler = async (event, context) => {
     // Generate a unique request number
     const requestNumber = generateRequestNumber();
     
-    // Configure transporter with secure options
+    // Configure transporter with secure options for production
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: process.env.SMTP_PORT === '465',
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: Number(process.env.SMTP_PORT) === 465,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
       tls: {
-        // Do not fail on invalid certs
-        rejectUnauthorized: process.env.NODE_ENV === 'production'
-      }
+        // Secure settings for production
+        rejectUnauthorized: true,
+        ciphers: 'SSLv3'
+      },
+      // Additional security for production
+      requireTLS: true,
+      logger: process.env.NODE_ENV === 'development'
     });
 
     // Verify connection
@@ -132,10 +145,25 @@ exports.handler = async (event, context) => {
       }),
     };
   } catch (error) {
+    // Log the full error for debugging
+    console.error('Contact function error:', error);
+    console.error('Error stack:', error.stack);
+    
+    // Check for specific error types
+    let errorMessage = 'Failed to send email';
+    
+    if (error.message?.includes('Failed to connect to email server')) {
+      errorMessage = 'Email server connection failed';
+    } else if (error.message?.includes('Failed to send admin notification')) {
+      errorMessage = 'Failed to send admin notification';
+    } else if (error.message?.includes('Missing required environment variables')) {
+      errorMessage = 'Server configuration error';
+    }
+    
     // Generic error message for production
-    const errorMessage = process.env.NODE_ENV === 'production' 
+    const finalErrorMessage = process.env.NODE_ENV === 'production' 
       ? 'An error occurred processing your request' 
-      : error.message || 'Failed to send email';
+      : errorMessage;
     
     return {
       statusCode: 500,
@@ -145,7 +173,8 @@ exports.handler = async (event, context) => {
       },
       body: JSON.stringify({ 
         success: false, 
-        error: errorMessage
+        error: finalErrorMessage,
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
       }),
     };
   }
