@@ -106,14 +106,14 @@ export const metadata: Metadata = {
 function GoogleAnalytics() {
   return (
     <>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EGFVC64LD" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-NDXT4VP66E" />
       <script
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-0EGFVC64LD');
+            gtag('config', 'G-NDXT4VP66E');
           `,
         }}
       />
