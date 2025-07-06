@@ -23,7 +23,9 @@ export default function Header() {
   const { resolvedTheme, setTheme } = useTheme(); // Use resolvedTheme for the actual theme value
   const [logoPath, setLogoPath] = useState(''); // State for logo path
   const { language, direction } = useI18n();
-  const t = translations[language].nav;
+  
+  // Safety check for language initialization
+  const t = language && translations[language] ? translations[language].nav : translations.en.nav;
 
   // Update logo path after theme is resolved
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link href={`/${language}`}>
+          <Link href={`/${language || 'en'}`}>
             {logoPath && <img src={logoPath} alt="Sareeh POS" className="h-8" />}
           </Link>
         </div>

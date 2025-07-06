@@ -3,11 +3,17 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from 'sonner';
 import { I18nProvider } from '@/components/i18n-provider';
 import type { Locale } from '@/lib/i18n-config';
+import { i18n } from '@/lib/i18n-config';
 import Header from '@/components/header';
 import FloatingWhatsApp from '@/components/floating-whatsapp';
 import '../globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
+
+// Required for static export
+export function generateStaticParams() {
+  return i18n.locales.map((locale) => ({ lang: locale }));
+}
 
 export default function RootLayout({
   children,

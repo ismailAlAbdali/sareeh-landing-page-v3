@@ -9,11 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { useDemoRequests } from '@/hooks/use-demo-requests';
 import { useI18n } from './i18n-provider';
 import { translations } from '@/lib/translations';
-import { AnimatePresence } from 'framer-motion';
-import LoadingOverlay from '@/components/loading-overlay';
+import { useRouter } from 'next/navigation';
 
 const formSchema = (language: string) => z.object({
   businessname: z.string().min(2, {
@@ -36,21 +34,6 @@ const formSchema = (language: string) => z.object({
 
 type FormData = z.infer<ReturnType<typeof formSchema>>;
 
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
-
-if (
-  !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  !WHATSAPP_NUMBER
-) {
-  throw new Error('Missing environment variables');
-}
-
-// const supabase = createClient(
-//   process.env.NEXT_PUBLIC_SUPABASE_URL,
-//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-// );
-
 export default function DemoForm() {
   const { language } = useI18n();
   const t_sum = translations[language].industries;
@@ -58,8 +41,8 @@ export default function DemoForm() {
   const demoT = translations[language].demo.form;
 
   const [selectedIndustry, setSelectedIndustry] = useState('');
-  const [isRedirecting, setIsRedirecting] = useState(false);
-  const { submitDemoRequest, isSubmitting } = useDemoRequests();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const industries = [
     { icon: Store, name: t.retail },
@@ -85,35 +68,11 @@ export default function DemoForm() {
     resolver: zodResolver(formSchema(language)),
   });
 
-  const redirectToWhatsApp = (message: string) => {
-    setIsRedirecting(true);
-    setTimeout(() => {
-      const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`
-     
-      
-      window.location.href = whatsappURL;
-      setIsRedirecting(false);
-    }, 1500);
-  };
-
   const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
     try {
-      // Submit to database
-      const dbResult = await submitDemoRequest({
-        businessname: data.businessname,
-        contactname: data.contactname,
-        email: data.email,
-        phone: data.phone,
-        industry: data.industry,
-        otherindustry: data.otherindustry
-      });
-      
-      if (!dbResult.success) {
-        throw new Error(dbResult.error);
-      }
-
-      // Submit to Netlify function for email notifications
-      const emailData = {
+      // Prepare form data
+      const formData = {
         businessname: data.businessname,
         contactname: data.contactname,
         email: data.email,
@@ -123,59 +82,44 @@ export default function DemoForm() {
         language: language
       };
 
-      const emailResponse = await fetch('/.netlify/functions/contact', {
+      // Submit to local API route for development (or Netlify function for production)
+      const apiEndpoint = process.env.NODE_ENV === 'development' 
+        ? '/api/contact' 
+        : '/.netlify/functions/contact';
+
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(emailData),
+        body: JSON.stringify(formData),
       });
 
-      const emailResult = await emailResponse.json();
+      const result = await response.json();
 
-      if (!emailResult.success) {
-        console.warn('Email notification failed:', emailResult.error);
-        // Don't throw error here as database submission was successful
-      } else {
-        console.log('Email notifications sent successfully:', emailResult.requestNumber);
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to submit form');
       }
 
       // Show success message
       toast.success(language === 'ar' ? 'تم إرسال طلب التجربة بنجاح!' : 'Demo request submitted successfully!');
 
-      // Also redirect to WhatsApp for immediate contact
-      const message = language === 'ar' 
-        ? encodeURIComponent(
-            `اريد تجربة نظام المحاسبة صريح:\n\nاسم النشاط التجاري: ${data.businessname}\nاسم المسؤول: ${data.contactname}\nالقطاع: ${data.industry}${
-              data.otherindustry ? ` - ${data.otherindustry}` : ''
-            }`
-          )
-        : encodeURIComponent(
-            `I want to try the Sareeh POS system:\n\nBusiness: ${data.businessname}\nContact: ${data.contactname}\nIndustry: ${data.industry}${
-              data.otherindustry ? ` - ${data.otherindustry}` : ''
-            }`
-          );
-
-      toast.success(language === 'ar' ? 'جاري تحويلك الى واتساب' : 'Redirecting you to WhatsApp!');
-      redirectToWhatsApp(message);
+      // Redirect to thank you page with form data
+      const thankYouUrl = `/${language}/thank-you?request=${result.requestNumber || `DEMO-${Date.now()}`}&business=${encodeURIComponent(data.businessname)}&contact=${encodeURIComponent(data.contactname)}&industry=${encodeURIComponent(data.industry)}`;
+      router.push(thankYouUrl);
+      
       reset();
       setSelectedIndustry('');
     } catch (err: any) {
       toast.error(language === 'ar' ? 'فشل إرسال النموذج. يرجى المحاولة مرة أخرى.' : 'Failed to submit form. Please try again.');
       console.error('Error submitting form:', err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <section id="demo" className="py-24 bg-gray-50 dark:bg-gray-900">
-      <AnimatePresence>
-        {isRedirecting && (
-          <LoadingOverlay 
-            message={language === 'ar' ? "جارٍ توجيهك إلى واتساب..." : "Directing you to WhatsApp..."}
-          />
-        )}
-      </AnimatePresence>
-
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-12">
@@ -296,7 +240,7 @@ export default function DemoForm() {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={isSubmitting || isRedirecting}
+              disabled={isSubmitting}
             >
               {isSubmitting ? demoT.submitting : demoT.submit}
             </Button>

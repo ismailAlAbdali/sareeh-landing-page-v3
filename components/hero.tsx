@@ -66,12 +66,6 @@ export default function Hero() {
   // Use absolute paths for better cross-browser compatibility
   const imageSrc = language === 'ar' ? '/images/sareeh_ar.png' : '/images/sareeh_en.png';
 
-  // Debug logging
-  useEffect(() => {
-    console.log('Hero image src:', imageSrc);
-    console.log('Current language:', language);
-  }, [imageSrc, language]);
-
   return (
     <section className="relative min-h-screen pt-24 overflow-hidden">
       <AnimatePresence>
@@ -86,94 +80,61 @@ export default function Hero() {
       {showConfetti && <CelebrationConfetti />} */}
 
       <div className="hero-gradient absolute inset-0" />
-
-      <div className="container relative mx-auto px-4 py-12 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto"
-        >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="gradient-text">{t.title}</span>
-          </h1>
-
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8">
-            {t.subtitle}
-          </p>
-
-          {/* Commented out countdown
-          <div className="mb-12">
-            <HeroCountdown />
-          </div>
-          */}
-
-          <div className="flex flex-col md:flex-row gap-4 justify-center mb-12">
-          <Button
-  size="lg"
-  className="text-lg flex items-center justify-center"
-  onClick={handleWhatsApp}
->
-  <MessageCircle className={`h-5 w-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
-  {t.contactSales}
-</Button>
-
-<Button
-  size="lg"
-  variant="outline"
-  className="text-lg flex items-center justify-center"
-  onClick={handleDemo}
->
-  <PlayCircle className={`h-5 w-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
-  {t.requestDemo}
-</Button>
-
-{/* Celebrate Again Button */}
-{/* <Button
-  size="lg"
-  variant="destructive"
-  className={`text-lg bg-gradient-to-r from-red-500 via-white to-green-500
-              text-green-800 dark:text-green-500
-              flex items-center justify-center rounded-lg shadow-md 
-              hover:shadow-lg transition-all duration-500`}
-  onClick={handleCelebrateAgain}
->
-  <span className={`${language === 'ar' ? 'ml-2' : 'mr-2'}`}>🎉</span>
-  {t.celebrateAgain || "Celebrate Again!"}
-</Button> */}
-
-
-          </div>
-
-          <motion.div
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[70vh]">
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="relative max-w-5xl mx-auto"
+            transition={{ duration: 0.8 }}
+            className="text-center lg:text-left space-y-6"
           >
-            {/* Use regular img tag for maximum cross-browser compatibility */}
-            <img
-              src={imageSrc}
-              alt="Sareeh POS Dashboard"
-              className="rounded-lg shadow-2xl w-full h-auto"
-              style={{
-                maxWidth: '100%',
-                height: 'auto',
-                display: 'block',
-                objectFit: 'contain'
-              }}
-              loading="eager"
-              decoding="async"
-              onLoad={() => console.log('Hero image loaded successfully:', imageSrc)}
-              onError={(e) => {
-                console.error('Hero image failed to load:', imageSrc, e);
-                // Try to reload the image
-                const target = e.target as HTMLImageElement;
-                target.src = imageSrc + '?t=' + Date.now();
-              }}
-            />
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+              {t.title}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto lg:mx-0">
+              {t.subtitle}
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Button 
+                size="lg" 
+                onClick={handleDemo}
+                className="bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg font-semibold"
+              >
+                {t.requestDemo}
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                onClick={handleWhatsApp}
+                className="px-8 py-4 text-lg font-semibold"
+              >
+                {t.contactSales}
+              </Button>
+            </div>
           </motion.div>
-        </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex justify-center lg:justify-end"
+          >
+            <div className="relative">
+              <motion.img
+                src={imageSrc}
+                alt={language === 'ar' ? 'نظام نقاط البيع صريح' : 'Sareeh POS System'}
+                className="max-w-full h-auto rounded-lg shadow-2xl"
+                style={{
+                  filter: 'drop-shadow(0 25px 50px rgba(0,0,0,0.15))',
+                }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

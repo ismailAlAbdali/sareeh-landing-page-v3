@@ -116,6 +116,53 @@ export const translations = {
         submitting: 'Submitting...'
       }
     },
+    demoSuccess: {
+      title: 'Demo Request Submitted Successfully!',
+      subtitle: 'Thank you for your interest in Sareeh POS. We will contact you shortly to arrange your demo.',
+      requestDetails: 'Request Details',
+      requestNumber: 'Request Number',
+      businessName: 'Business Name',
+      contactName: 'Contact Name',
+      nextSteps: 'What Happens Next?',
+      step1: {
+        title: 'Review Your Request',
+        description: 'Our team will review your business requirements and prepare a personalized demo.'
+      },
+      step2: {
+        title: 'Schedule Demo Session',
+        description: 'We will contact you within 24 hours to schedule a convenient time for your demo.'
+      },
+      step3: {
+        title: 'Get Trial Access',
+        description: 'After the demo, we will provide you with secure trial access to test the system.'
+      },
+      whatsappButton: 'Contact via WhatsApp',
+      closeButton: 'Close'
+    },
+    thankYou: {
+      title: 'Thank You for Your Demo Request!',
+      subtitle: 'Your request has been successfully submitted. We will contact you shortly to arrange your personalized demo.',
+      requestDetails: 'Request Details',
+      requestNumber: 'Request Number',
+      businessName: 'Business Name',
+      contactName: 'Contact Name',
+      industry: 'Industry',
+      nextSteps: 'What Happens Next?',
+      step1: {
+        title: 'Review Your Request',
+        description: 'Our team will review your business requirements and prepare a personalized demo.'
+      },
+      step2: {
+        title: 'Schedule Demo Session',
+        description: 'We will contact you within 24 hours to schedule a convenient time for your demo.'
+      },
+      step3: {
+        title: 'Get Trial Access',
+        description: 'After the demo, we will provide you with secure trial access to test the system.'
+      },
+      whatsappButton: 'Contact via WhatsApp',
+      backToHome: 'Back to Home'
+    },
     location: {
       title: 'Visit Our Office',
       subtitle: 'We\'d love to meet you in person',
@@ -366,6 +413,53 @@ export const translations = {
         submit: 'طلب تجربة',
         submitting: 'جاري الإرسال...'
       }
+    },
+    demoSuccess: {
+      title: 'طلب تجربة إرسال بنجاح!',
+      subtitle: 'شكراً لاهتمامك بنظام صريح تطوير البيع. سنتواصل معك قريباً لتنظيم جلسة التجربة.',
+      requestDetails: 'تفاصيل الطلب',
+      requestNumber: 'رقم الطلب',
+      businessName: 'اسم النشاط التجاري',
+      contactName: 'اسم المسؤول',
+      nextSteps: 'ما يحدث بعد ذلك؟',
+      step1: {
+        title: 'مراجعة طلبك',
+        description: 'فريقنا سيقوم بمراجعة تفضيلات عملك وإعداد جلسة تجربة شخصية.'
+      },
+      step2: {
+        title: 'تنظيم جلسة تجربة',
+        description: 'سنتواصل معك خلال 24 ساعة لتنظيم وقتاً مريحاً لجلسة التجربة.'
+      },
+      step3: {
+        title: 'الحصول على دخول التجربة',
+        description: 'بعد التجربة، سنقدم لك دخول تجريبي آمن لاختبار النظام.'
+      },
+      whatsappButton: 'تواصل عبر الواتسب',
+      closeButton: 'إغلاق'
+    },
+    thankYou: {
+      title: 'شكراً لطلبك للتجربة!',
+      subtitle: 'تم إرسال طلبك بنجاح. سنتواصل معك قريباً لتنظيم جلسة التجربة الشخصية.',
+      requestDetails: 'تفاصيل الطلب',
+      requestNumber: 'رقم الطلب',
+      businessName: 'اسم النشاط التجاري',
+      contactName: 'اسم المسؤول',
+      industry: 'القطاع',
+      nextSteps: 'ما يحدث بعد ذلك؟',
+      step1: {
+        title: 'مراجعة طلبك',
+        description: 'فريقنا سيقوم بمراجعة تفضيلات عملك وإعداد جلسة تجربة شخصية.'
+      },
+      step2: {
+        title: 'تنظيم جلسة تجربة',
+        description: 'سنتواصل معك خلال 24 ساعة لتنظيم وقتاً مريحاً لجلسة التجربة.'
+      },
+      step3: {
+        title: 'الحصول على دخول التجربة',
+        description: 'بعد التجربة، سنقدم لك دخول تجريبي آمن لاختبار النظام.'
+      },
+      whatsappButton: 'اتصل عبر الواتسب',
+      backToHome: 'العودة للصفحة الرئيسية'
     },
     location: {
       title: 'زورنا المكتب',
