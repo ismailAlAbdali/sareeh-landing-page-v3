@@ -177,7 +177,11 @@ export const translations = {
     footer: {
       rights: 'All rights reserved',
       privacy: 'Privacy Policy',
-      terms: 'Terms of Service'
+      terms: 'Terms of Service',
+      followUs: 'Follow Us',
+      instagram: 'Instagram',
+      contact: 'Contact Us',
+      phone: 'Phone'
     },
     statistics: {
       title: 'Sareeh Statistics',
@@ -475,7 +479,11 @@ export const translations = {
     footer: {
       rights: 'جميع الحقوق محفوظة',
       privacy: 'سياسة الخصوصية',
-      terms: 'شروط الخدمة'
+      terms: 'شروط الخدمة',
+      followUs: 'تابعنا',
+      instagram: 'إنستغرام',
+      contact: 'تواصل معنا',
+      phone: 'هاتف'
     },
     statistics: {
       title: 'إحصائيات صريح',
