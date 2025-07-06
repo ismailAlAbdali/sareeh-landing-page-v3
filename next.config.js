@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Temporarily disable static export for development
-  // output: 'export',
+  // Enable static export for Netlify deployment
+  output: 'export',
   images: { unoptimized: true },
   eslint: {
     ignoreDuringBuilds: true,
