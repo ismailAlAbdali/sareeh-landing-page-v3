@@ -106,7 +106,7 @@ export const metadata: Metadata = {
 function GoogleAnalytics() {
   return (
     <>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-JS6CPY5N4E" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EGFVC64LD" />
       <script
         dangerouslySetInnerHTML={{
           __html: `
