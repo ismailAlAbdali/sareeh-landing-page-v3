@@ -131,6 +131,9 @@ export default function RootLayout({
       <head>
         <GoogleAnalytics />
         <link rel="icon" href="/images/favicon.ico" sizes="any" />
+        {/* Preload hero images for better performance and cross-browser compatibility */}
+        <link rel="preload" as="image" href="/images/sareeh_en.png" />
+        <link rel="preload" as="image" href="/images/sareeh_ar.png" />
       </head>
       <body className={inter.className}>
         <ThemeProvider

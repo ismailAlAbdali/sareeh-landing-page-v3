@@ -126,3 +126,24 @@
     left: 16px !important;
   }
 }
+
+/* Cross-browser image compatibility fixes */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ensure Next.js Image component works properly */
+.next-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+/* Force image display in problematic browsers */
+img[src*="sareeh"] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}

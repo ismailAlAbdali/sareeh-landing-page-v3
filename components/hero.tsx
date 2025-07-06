@@ -21,6 +21,8 @@ export default function Hero() {
   const [showConfetti, setShowConfetti] = useState(false);  
   const [isRedirecting, setIsRedirecting] = useState(false);
 
+  const { language } = useI18n();
+  const t = translations[language].hero;
 
   useEffect(() => {
     setShowConfetti(true);
@@ -61,10 +63,14 @@ export default function Hero() {
     return () => clearTimeout(timer);
   };
 
-  const { language } = useI18n();
-  const t = translations[language].hero;
+  // Use absolute paths for better cross-browser compatibility
+  const imageSrc = language === 'ar' ? '/images/sareeh_ar.png' : '/images/sareeh_en.png';
 
-  const imageSrc = language === 'ar' ? `${IMAGE_DIR}sareeh_ar.png` : `${IMAGE_DIR}sareeh_en.png`;
+  // Debug logging
+  useEffect(() => {
+    console.log('Hero image src:', imageSrc);
+    console.log('Current language:', language);
+  }, [imageSrc, language]);
 
   return (
     <section className="relative min-h-screen pt-24 overflow-hidden">
@@ -145,10 +151,26 @@ export default function Hero() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="relative max-w-5xl mx-auto"
           >
+            {/* Use regular img tag for maximum cross-browser compatibility */}
             <img
               src={imageSrc}
               alt="Sareeh POS Dashboard"
               className="rounded-lg shadow-2xl w-full h-auto"
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+                display: 'block',
+                objectFit: 'contain'
+              }}
+              loading="eager"
+              decoding="async"
+              onLoad={() => console.log('Hero image loaded successfully:', imageSrc)}
+              onError={(e) => {
+                console.error('Hero image failed to load:', imageSrc, e);
+                // Try to reload the image
+                const target = e.target as HTMLImageElement;
+                target.src = imageSrc + '?t=' + Date.now();
+              }}
             />
           </motion.div>
         </motion.div>
