@@ -10,7 +10,7 @@ import { translations } from '@/lib/translations';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-// Extend Window interface for gtag
+// Extend Window interface for Google Analytics
 declare global {
   interface Window {
     gtag?: (...args: any[]) => void;
@@ -62,31 +62,40 @@ function ThankYouPageContent() {
   const contactName = searchParams.get('contact') || '';
   const industry = searchParams.get('industry') || '';
 
-  // Google Ads conversion tracking
+  // Google Analytics tracking
   useEffect(() => {
-    // Track page view and conversion
+    // Track thank you page view and demo completion events
     if (typeof window !== 'undefined' && window.gtag) {
       // Track page view
-      window.gtag('config', 'G-0EGFVC64LD', {
-        page_title: 'Thank You - Demo Request',
+      window.gtag('config', 'G-NDXT4VP66E', {
+        page_title: 'Thank You - Demo Request Completed',
         page_location: window.location.href,
       });
 
-      // Track form submission conversion
+      // Track demo request completion event
+      window.gtag('event', 'demo_request_completed', {
+        'event_category': 'engagement',
+        'event_label': 'demo_form_submission',
+        'value': 1,
+        'transaction_id': requestNumber,
+        'business_name': businessName,
+        'industry': industry,
+        'currency': 'OMR'
+      });
+
+      // Track conversion for Google Ads (if you have conversion tracking set up)
       window.gtag('event', 'conversion', {
-        'send_to': 'AW-1234567890/ABC123DEF456', // TODO: Replace with your actual Google Ads conversion ID
+        'send_to': 'G-NDXT4VP66E/demo_conversion', // Update this if you have specific conversion tracking
         'value': 1.0,
         'currency': 'OMR',
         'transaction_id': requestNumber
       });
 
-      // Track custom event for better analytics
-      window.gtag('event', 'demo_request_completed', {
-        'event_category': 'engagement',
-        'event_label': 'demo_form',
-        'value': 1,
-        'custom_parameter_1': businessName,
-        'custom_parameter_2': industry
+      // Track custom milestone event
+      window.gtag('event', 'milestone_reached', {
+        'milestone_name': 'demo_request_thank_you',
+        'event_category': 'user_journey',
+        'event_label': 'demo_funnel_completion'
       });
     }
 
