@@ -1,14 +1,26 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static export for Netlify deployment
-  output: 'export',
-  images: { unoptimized: true },
   eslint: {
     ignoreDuringBuilds: true,
   },
-  swcMinify: false, // Disable SWC minification to avoid build issues
-  trailingSlash: true, // Add trailing slash for better Netlify compatibility
-  // Remove rewrites as they don't work with static export
+  images: {
+    domains: [],
+    unoptimized: false,
+  },
+  experimental: {
+    esmExternals: false,
+  },
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // Add alias configuration for better module resolution
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+    };
+    
+    return config;
+  },
 };
 
 module.exports = nextConfig;
