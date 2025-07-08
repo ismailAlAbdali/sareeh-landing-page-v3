@@ -596,8 +596,8 @@ export const translations = {
         "alhaitham-perfumes": "الهيثم للعطور",
         "mafroshat-bin-shaya": "مفروشات بن شائع",
         "quickstore": "كويك ستور",
-        "sourj-bakery-cafe": "مخبز وكافيه صوروج بيكري",
-        "barari-aleawaja": "براري العواجة للمواد الزراعية",
+        "sourj-bakery-cafe": "مخبز وكافيه صاروج بيكري",
+        "barari-aleawaja": "براري العويجا للمواد الزراعية",
         "cam-std-wedding": "كام ستوديو لتصوير الأعراس"
  
       }
