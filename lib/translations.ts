@@ -5,6 +5,7 @@ export const translations = {
       industries: 'Industries',
       demo: 'Request Demo',
       offer: 'Pricing',
+      clients: 'Clients',
       contact: 'Contact'
     },
     contact: {
@@ -261,6 +262,24 @@ export const translations = {
         }
       }
     },
+    clients: {
+      title: "Our Clients",
+      subtitle: "Proud to work with distinguished clients",
+      companies: {
+        "aswaq-al-raqeef": "Aswaq Al Raqeef Al Arabi",
+        "nsgamers": "NSGamers",
+        "ifitness": "IFitness",
+        "aldana-makeup": "Aldana Makeup",
+        "awani-store": "Awani Store",
+        "quickstop-shop": "QuickStop Shop",
+        "alhaitham-perfumes": "Al Haitham For Perfumes",
+        "mafroshat-bin-shaya": "Bin Shaya For Furniture",
+        "quickstore": "QuickStore",
+        "sourj-bakery-cafe": "Sourj Bakery Cafe",
+        "barari-aleawaja": "Barari Al Eawaja Agriculture Materials",
+        "cam-std-wedding": "Cam Studio Wedding Photography"
+      }
+    },
     faq: {
       title: "Frequently Asked Questions",
       subtitle: "Everything you need to know about Sareeh",
@@ -305,6 +324,7 @@ export const translations = {
       industries: 'القطاعات',
       demo: 'طلب تجربة',
       offer: 'الأسعار',
+      clients: 'العملاء',
       contact: 'اتصل بنا'
     },
     contact: {
@@ -561,6 +581,25 @@ export const translations = {
             "دعم مستمر"  
           ]
         }
+      }
+    },
+    clients: {
+      title: "عملاؤنا",
+      subtitle: "نفخر بالعمل مع عملاء مميزين",
+      companies: {
+        "awani-store": "متجر أواني ستور",
+        "aswaq-al-raqeef": "أسواق و مخبزالرغيف العربي",
+        "ifitness": "آي فتنس",
+        "aldana-makeup": "الدانة للمكياج",
+        "quickstop-shop": "كويك ستوب شوب",
+        "nsgamers": "إن إس غيمرز",
+        "alhaitham-perfumes": "الهيثم للعطور",
+        "mafroshat-bin-shaya": "مفروشات بن شائع",
+        "quickstore": "كويك ستور",
+        "sourj-bakery-cafe": "مخبز وكافيه صوروج بيكري",
+        "barari-aleawaja": "براري العواجة للمواد الزراعية",
+        "cam-std-wedding": "كام ستوديو لتصوير الأعراس"
+ 
       }
     },
     faq: {

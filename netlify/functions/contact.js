@@ -1,5 +1,15 @@
 const nodemailer = require('nodemailer');
+const { createClient } = require('@supabase/supabase-js');
 const { createAdminNotificationTemplate, createUserConfirmationTemplate } = require('./templates');
+
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+let supabase = null;
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey);
+}
 
 // Sanitize inputs to prevent XSS
 function sanitizeInput(input) {
@@ -69,6 +79,53 @@ exports.handler = async (event, context) => {
     // Generate a unique request number
     const requestNumber = generateRequestNumber();
     
+    console.log('Processing demo request:', {
+      requestNumber,
+      businessname,
+      contactname,
+      email,
+      phone,
+      industry,
+      otherindustry,
+      language
+    });
+
+    // 1. Insert into Supabase database (if available)
+    let dbData = null;
+    if (supabase) {
+      try {
+        const { data, error: dbError } = await supabase
+          .from('demo_requests')
+          .insert([
+            {
+              businessname,
+              contactname,
+              email: email || null,
+              phone,
+              industry,
+              otherindustry: otherindustry || null,
+            }
+          ])
+          .select()
+          .single();
+
+        if (dbError) {
+          console.error('Database error:', dbError);
+          // Don't fail the entire request, just log the error
+          console.log('Continuing with email sending despite database error');
+        } else {
+          dbData = data;
+          console.log('Database record created:', dbData);
+        }
+      } catch (dbError) {
+        console.error('Database connection error:', dbError);
+        console.log('Continuing with email sending despite database error');
+      }
+    } else {
+      console.log('Supabase not configured, skipping database save');
+    }
+
+    // 2. Configure and send emails
     // Configure transporter with secure options for production
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
@@ -102,7 +159,10 @@ exports.handler = async (event, context) => {
       email,
       phone,
       industry,
-      otherindustry
+      otherindustry,
+      requestNumber,
+      id: dbData?.id,
+      created_at: dbData?.created_at
     };
 
     // Send email to admin
@@ -141,7 +201,15 @@ exports.handler = async (event, context) => {
       },
       body: JSON.stringify({ 
         success: true, 
-        requestNumber: requestNumber 
+        requestNumber: requestNumber,
+        message: 'Demo request submitted successfully',
+        data: {
+          id: dbData?.id,
+          businessname,
+          contactname,
+          industry,
+          created_at: dbData?.created_at
+        }
       }),
     };
   } catch (error) {

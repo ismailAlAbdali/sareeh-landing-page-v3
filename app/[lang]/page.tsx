@@ -7,6 +7,7 @@ import FeaturesGrid from '@/components/features-grid'
 import IndustriesGrid from '@/components/industries-grid'
 import { StatisticsGrid } from '@/components/statistics/statistics-grid'
 import { PricingSection } from '@/components/pricing/PricingSection'
+import ClientsSection from '@/components/clients-section'
 import DemoForm from '@/components/demo-form'
 import { FAQ } from '@/components/faq'
 import Location from '@/components/location'
@@ -49,6 +50,7 @@ export default function Home({
         <IndustriesGrid />
         <StatisticsGrid />
         <PricingSection />
+        <ClientsSection />
         <DemoForm />
         <FAQ />
         <Location />

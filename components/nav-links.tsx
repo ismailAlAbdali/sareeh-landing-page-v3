@@ -31,6 +31,7 @@ export default function NavLinks() {
     { href: '#features', id: 'features', label: t.features },
     { href: '#industries', id: 'industries', label: t.industries },
     { href: '#pricing', id: 'pricing', label: t.offer },
+    { href: '#clients', id: 'clients', label: t.clients },
     { href: '#demo', id: 'demo', label: t.demo },
     { href: '#contact', id: 'contact', label: t.contact },
   ]
