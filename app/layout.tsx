@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from 'sonner';
 import './globals.css';
-import TestEmailButton from '@/components/test-email-button';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,7 +11,7 @@ const sharedMetadata = {
     canonical: 'https://sareeh.omancloud.com/',
     languages: {
       'en-US': 'https://sareeh.omancloud.com/en',
-      'ar-OM': 'https://sareeh.omancloud.com//ar',
+      'ar-OM': 'https://sareeh.omancloud.com/ar',
     },
   },
   openGraph: {
@@ -53,12 +50,6 @@ export const metadata: Metadata = {
     default: 'Sareeh POS - Complete Business Management Solution',
   },
   description: 'Sareeh POS - The leading Micro ERP solution in Oman',
-  alternates: {
-    languages: {
-      'en-US': 'Sareeh POS - The leading Micro ERP solution in Oman. Streamline your business with our point of sale, inventory management, and analytics tools.',
-      'ar-OM': 'صريح - الحل الرائد لنقاط البيع في عمان. قم بتبسيط أعمالك مع أدوات نقاط البيع وإدارة المخزون والتحليلات لدينا.',
-    }
-  },
   keywords: [
     // English Keywords
     'POS System Oman',
@@ -75,7 +66,6 @@ export const metadata: Metadata = {
     'Cafe POS system',
     // Arabic Keywords
     'نظام نقاط البيع عمان',
-    
     'برنامج محاسبة عمان',
     'نظام إدارة المطاعم',
     'برنامج المحاسبة للشركات',
@@ -86,20 +76,6 @@ export const metadata: Metadata = {
     'برنامج محاسبي متكامل',
     'نظام تخطيط موارد المؤسسات'
   ].join(', '),
-  openGraph: {
-    ...sharedMetadata.openGraph,
-    title: 'Sareeh POS System',
-    description: 'Complete Business Management Solution in Oman',
-    url: 'https://sareeh.omancloud.com',
-    locale: 'en_US',
-    alternateLocale: 'ar_OM',
-  },
-  twitter: {
-    ...sharedMetadata.twitter,
-    title: 'Sareeh POS System',
-    description: 'Complete Business Management Solution in Oman',
-    card: 'summary_large_image',
-  },
 };
 
 // Google Analytics Script Component
@@ -127,7 +103,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <GoogleAnalytics />
         <link rel="icon" href="/images/favicon.ico" sizes="any" />
@@ -136,25 +112,7 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/images/sareeh_ar.png" />
       </head>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster 
-            position="top-center"
-            toastOptions={{
-              style: {
-                background: 'var(--background)',
-                color: 'var(--foreground)',
-                border: '1px solid var(--border)',
-              }
-            }}
-          />
-          <TestEmailButton />
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   )
