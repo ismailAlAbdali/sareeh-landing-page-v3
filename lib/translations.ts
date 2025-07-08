@@ -588,7 +588,7 @@ export const translations = {
       subtitle: "نفخر بالعمل مع عملاء مميزين",
       companies: {
         "awani-store": "متجر أواني ستور",
-        "aswaq-al-raqeef": "أسواق و مخبزالرغيف العربي",
+        "aswaq-al-raqeef": "أسواق و مخبز الرغيف العربي",
         "ifitness": "آي فتنس",
         "aldana-makeup": "الدانة للمكياج",
         "quickstop-shop": "كويك ستوب شوب",
@@ -596,8 +596,8 @@ export const translations = {
         "alhaitham-perfumes": "الهيثم للعطور",
         "mafroshat-bin-shaya": "مفروشات بن شائع",
         "quickstore": "كويك ستور",
-        "sourj-bakery-cafe": "مخبز وكافيه صوروج بيكري",
-        "barari-aleawaja": "براري العواجة للمواد الزراعية",
+        "sourj-bakery-cafe": "كافيه صاروج بيكري",
+        "barari-aleawaja": "براري العويجا للمواد الزراعية",
         "cam-std-wedding": "كام ستوديو لتصوير الأعراس"
  
       }
